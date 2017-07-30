@@ -152,4 +152,65 @@ public class DrawMeShapeText extends DrawMeShape {
             ((TextView) mView).setTextColor(colorStateList);
         }
     }
+
+
+    public String getFont()
+    {
+        return font;
+    }
+
+    public void setFont(String font)
+    {
+        this.font = font;
+    }
+
+    public int getTextColor()
+    {
+        return textColor;
+    }
+
+    public void setTextColor(int textColor)
+    {
+        this.textColor = textColor;
+    }
+
+    public int getTextColorPressed()
+    {
+        return textColorPressed;
+    }
+
+    public void setTextColorPressed(int textColorPressed)
+    {
+        this.textColorPressed = textColorPressed;
+    }
+
+    public int getTextColorDisabled()
+    {
+        return textColorDisabled;
+    }
+
+    public void setTextColorDisabled(int textColorDisabled)
+    {
+        this.textColorDisabled = textColorDisabled;
+    }
+
+    public int getTintColor()
+    {
+        return tintColor;
+    }
+
+    public void setTintColor(int tintColor)
+    {
+        this.tintColor = tintColor;
+    }
+
+    public int getTintMode()
+    {
+        return tintMode;
+    }
+
+    public void setTintMode(int tintMode)
+    {
+        this.tintMode = tintMode;
+    }
 }

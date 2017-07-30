@@ -6,7 +6,7 @@ import android.widget.EditText;
 import com.rafakob.drawme.delegate.DrawMe;
 import com.rafakob.drawme.delegate.DrawMeShapeText;
 
-public class DrawMeEditText extends EditText {
+public class DrawMeEditText extends android.support.v7.widget.AppCompatEditText {
   private final DrawMe drawMe;
 
   public DrawMeEditText(Context context) {

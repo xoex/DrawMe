@@ -23,6 +23,10 @@
         <attr name="dm_strokeColor" format="color"/>
         <attr name="dm_strokeColorDisabled" format="color"/>
         <attr name="dm_strokeColorPressed" format="color"/>
+
+        <attr name="dm_shadowColor" format="color"/>
+        <attr name="dm_shadowX" format="dimension"/>
+        <attr name="dm_shadowY" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="DrawMeText">

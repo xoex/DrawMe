@@ -7,12 +7,14 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.rafakob.drawme.R;
@@ -54,6 +56,10 @@ public class DrawMeShape implements DrawMe {
     protected boolean stateDisabled;
     protected boolean shapeEqualWidthHeight;
     protected boolean shapeRadiusHalfHeight;
+    /* 2D Shadow */
+    protected int shadowX;
+    protected int shadowY;
+    protected int shadowColor;
 
     public DrawMeShape(Context context, View view) {
         this(context, view, null);
@@ -101,6 +107,11 @@ public class DrawMeShape implements DrawMe {
         strokeColor = a.getColor(R.styleable.DrawMe_dm_strokeColor, Color.GRAY);
         strokeColorPressed = a.getColor(R.styleable.DrawMe_dm_strokeColorPressed, defaultPressedColor(strokeColor));
         strokeColorDisabled = a.getColor(R.styleable.DrawMe_dm_strokeColorDisabled, defaultDisabledColor(strokeColor));
+
+        shadowColor = a.getColor(R.styleable.DrawMe_dm_shadowColor, Color.GRAY);
+        shadowX = a.getDimensionPixelSize(R.styleable.DrawMe_dm_shadowX, 0);
+        shadowY = a.getDimensionPixelSize(R.styleable.DrawMe_dm_shadowY, 0);
+
     }
 
     @Override
@@ -181,17 +192,68 @@ public class DrawMeShape implements DrawMe {
         return shape;
     }
 
+    private Drawable createShadowShape()
+    {
+        if (shadowX != 0 || shadowY !=0)
+        {
+            GradientDrawable shadow = (GradientDrawable) createShape(shadowColor,  0);
+            shadow.setStroke(0 , 0);
+            return shadow;
+        } else {
+            return null;
+        }
+    }
 
     private StateListDrawable createStateListDrawable() {
         StateListDrawable states = new StateListDrawable();
-        if (stateDisabled) {
-            states.addState(new int[]{-android.R.attr.state_enabled}, createShape(backColorDisabled, strokeColorDisabled));
+
+        Drawable shadow = createShadowShape();
+
+        if (shadow == null)
+        {
+            if (stateDisabled)
+            {
+                states.addState(new int[]{-android.R.attr.state_enabled}, createShape(backColorDisabled, strokeColorDisabled));
+            }
+            if (statePressed)
+            {
+                states.addState(new int[]{android.R.attr.state_pressed}, createShape(backColorPressed, strokeColorPressed));
+            }
+            states.addState(new int[]{}, createShape(backColor, strokeColor));
+            return states;
+        } else {
+
+            if (stateDisabled)
+            {
+                states.addState(new int[]{-android.R.attr.state_enabled},
+                        addShadow(createShape(backColorDisabled, strokeColorDisabled) , shadow));
+            }
+            if (statePressed)
+            {
+                states.addState(new int[]{android.R.attr.state_pressed},
+                        addShadow(createShape(backColorPressed, strokeColorPressed) , shadow));
+            }
+            states.addState(new int[]{},
+                    addShadow(createShape(backColor, strokeColor) , shadow));
+            return states;
         }
-        if (statePressed) {
-            states.addState(new int[]{android.R.attr.state_pressed}, createShape(backColorPressed, strokeColorPressed));
-        }
-        states.addState(new int[]{}, createShape(backColor, strokeColor));
-        return states;
+    }
+
+    private LayerDrawable addShadow(Drawable background, Drawable shadow)
+    {
+        Drawable[] layers = new Drawable[2];
+        layers[0] = shadow;
+        layers[1] = background;
+
+        int l = shadowX > 0 ? shadowX : 0;
+        int t = shadowY > 0 ? shadowY : 0;
+        int r = shadowX < 0 ? -shadowX : 0;
+        int b = shadowY < 0 ? -shadowY : 0;
+
+        LayerDrawable layerList = new LayerDrawable(layers);
+        layerList.setLayerInset(0, l, t, r, b);
+        layerList.setLayerInset(1, r , b , l , t);
+        return layerList;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -253,5 +315,226 @@ public class DrawMeShape implements DrawMe {
     @ColorInt
     private int defaultDisabledColor(int normalColor) {
         return Coloring.mix(maskColorDisabled, normalColor);
+    }
+
+
+    public int getBackColor()
+    {
+        return backColor;
+    }
+
+    public void setBackColor(int backColor)
+    {
+        this.backColor = backColor;
+    }
+
+    public int getBackColorPressed()
+    {
+        return backColorPressed;
+    }
+
+    public void setBackColorPressed(int backColorPressed)
+    {
+        this.backColorPressed = backColorPressed;
+    }
+
+    public int getBackColorDisabled()
+    {
+        return backColorDisabled;
+    }
+
+    public void setBackColorDisabled(int backColorDisabled)
+    {
+        this.backColorDisabled = backColorDisabled;
+    }
+
+    public int getStroke()
+    {
+        return stroke;
+    }
+
+    public void setStroke(int stroke)
+    {
+        this.stroke = stroke;
+    }
+
+    public int getStrokeColor()
+    {
+        return strokeColor;
+    }
+
+    public void setStrokeColor(int strokeColor)
+    {
+        this.strokeColor = strokeColor;
+    }
+
+    public int getStrokeColorPressed()
+    {
+        return strokeColorPressed;
+    }
+
+    public void setStrokeColorPressed(int strokeColorPressed)
+    {
+        this.strokeColorPressed = strokeColorPressed;
+    }
+
+    public int getStrokeColorDisabled()
+    {
+        return strokeColorDisabled;
+    }
+
+    public void setStrokeColorDisabled(int strokeColorDisabled)
+    {
+        this.strokeColorDisabled = strokeColorDisabled;
+    }
+
+    public int getRadius()
+    {
+        return radius;
+    }
+
+    public void setRadius(int radius)
+    {
+        this.radius = radius;
+    }
+
+    public int getRadiusBottomLeft()
+    {
+        return radiusBottomLeft;
+    }
+
+    public void setRadiusBottomLeft(int radiusBottomLeft)
+    {
+        this.radiusBottomLeft = radiusBottomLeft;
+    }
+
+    public int getRadiusBottomRight()
+    {
+        return radiusBottomRight;
+    }
+
+    public void setRadiusBottomRight(int radiusBottomRight)
+    {
+        this.radiusBottomRight = radiusBottomRight;
+    }
+
+    public int getRadiusTopLeft()
+    {
+        return radiusTopLeft;
+    }
+
+    public void setRadiusTopLeft(int radiusTopLeft)
+    {
+        this.radiusTopLeft = radiusTopLeft;
+    }
+
+    public int getRadiusTopRight()
+    {
+        return radiusTopRight;
+    }
+
+    public void setRadiusTopRight(int radiusTopRight)
+    {
+        this.radiusTopRight = radiusTopRight;
+    }
+
+    public float getMaskBrightnessThreshold()
+    {
+        return maskBrightnessThreshold;
+    }
+
+    public void setMaskBrightnessThreshold(float maskBrightnessThreshold)
+    {
+        this.maskBrightnessThreshold = maskBrightnessThreshold;
+    }
+
+    public int getMaskColorPressed()
+    {
+        return maskColorPressed;
+    }
+
+    public void setMaskColorPressed(int maskColorPressed)
+    {
+        this.maskColorPressed = maskColorPressed;
+    }
+
+    public int getMaskColorPressedInverse()
+    {
+        return maskColorPressedInverse;
+    }
+
+    public void setMaskColorPressedInverse(int maskColorPressedInverse)
+    {
+        this.maskColorPressedInverse = maskColorPressedInverse;
+    }
+
+    public int getMaskColorDisabled()
+    {
+        return maskColorDisabled;
+    }
+
+    public void setMaskColorDisabled(int maskColorDisabled)
+    {
+        this.maskColorDisabled = maskColorDisabled;
+    }
+
+    public boolean isRippleEffect()
+    {
+        return rippleEffect;
+    }
+
+    public void setRippleEffect(boolean rippleEffect)
+    {
+        this.rippleEffect = rippleEffect;
+    }
+
+    public boolean isRippleUseControlHighlight()
+    {
+        return rippleUseControlHighlight;
+    }
+
+    public void setRippleUseControlHighlight(boolean rippleUseControlHighlight)
+    {
+        this.rippleUseControlHighlight = rippleUseControlHighlight;
+    }
+
+    public boolean isStatePressed()
+    {
+        return statePressed;
+    }
+
+    public void setStatePressed(boolean statePressed)
+    {
+        this.statePressed = statePressed;
+    }
+
+    public boolean isStateDisabled()
+    {
+        return stateDisabled;
+    }
+
+    public void setStateDisabled(boolean stateDisabled)
+    {
+        this.stateDisabled = stateDisabled;
+    }
+
+    public boolean isShapeEqualWidthHeight()
+    {
+        return shapeEqualWidthHeight;
+    }
+
+    public void setShapeEqualWidthHeight(boolean shapeEqualWidthHeight)
+    {
+        this.shapeEqualWidthHeight = shapeEqualWidthHeight;
+    }
+
+    public boolean isShapeRadiusHalfHeight()
+    {
+        return shapeRadiusHalfHeight;
+    }
+
+    public void setShapeRadiusHalfHeight(boolean shapeRadiusHalfHeight)
+    {
+        this.shapeRadiusHalfHeight = shapeRadiusHalfHeight;
     }
 }

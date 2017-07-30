@@ -387,5 +387,21 @@
 
         </FrameLayout>
 
+        <TextView
+            style="@style/TextDivider"
+            android:text="#10: Shadow"/>
+
+        <com.rafakob.drawme.DrawMeLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
+            drawme:dm_shapeRadiusHalfHeight="true"
+            drawme:dm_backColor="@color/colorYellow"
+            drawme:dm_shadowX = "0dp"
+            drawme:dm_shadowY = "2dp"
+            drawme:dm_rippleEffect = "false"
+
+            />
+
     </LinearLayout>
 </ScrollView>
