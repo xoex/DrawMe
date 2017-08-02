@@ -119,7 +119,10 @@ public class DrawMeShape implements DrawMe {
         if (shapeRadiusHalfHeight) {
             radius = mView.getHeight() / 2;
         }
-        updateLayout();
+        if (changed)
+        {
+            updateLayout();
+        }
     }
 
     @Override
@@ -147,6 +150,7 @@ public class DrawMeShape implements DrawMe {
     }
 
     private Drawable createBackground() {
+//        Log.v(this.getClass().getSimpleName() , "create background");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && rippleEffect) {
             return createRippleDrawable();
         } else {
@@ -326,6 +330,7 @@ public class DrawMeShape implements DrawMe {
     public void setBackColor(int backColor)
     {
         this.backColor = backColor;
+        updateLayout();
     }
 
     public int getBackColorPressed()
@@ -336,6 +341,7 @@ public class DrawMeShape implements DrawMe {
     public void setBackColorPressed(int backColorPressed)
     {
         this.backColorPressed = backColorPressed;
+        updateLayout();
     }
 
     public int getBackColorDisabled()
@@ -346,6 +352,7 @@ public class DrawMeShape implements DrawMe {
     public void setBackColorDisabled(int backColorDisabled)
     {
         this.backColorDisabled = backColorDisabled;
+        updateLayout();
     }
 
     public int getStroke()
@@ -356,6 +363,7 @@ public class DrawMeShape implements DrawMe {
     public void setStroke(int stroke)
     {
         this.stroke = stroke;
+        updateLayout();
     }
 
     public int getStrokeColor()
@@ -366,6 +374,7 @@ public class DrawMeShape implements DrawMe {
     public void setStrokeColor(int strokeColor)
     {
         this.strokeColor = strokeColor;
+        updateLayout();
     }
 
     public int getStrokeColorPressed()
@@ -376,6 +385,7 @@ public class DrawMeShape implements DrawMe {
     public void setStrokeColorPressed(int strokeColorPressed)
     {
         this.strokeColorPressed = strokeColorPressed;
+        updateLayout();
     }
 
     public int getStrokeColorDisabled()
@@ -386,6 +396,7 @@ public class DrawMeShape implements DrawMe {
     public void setStrokeColorDisabled(int strokeColorDisabled)
     {
         this.strokeColorDisabled = strokeColorDisabled;
+        updateLayout();
     }
 
     public int getRadius()
@@ -396,6 +407,7 @@ public class DrawMeShape implements DrawMe {
     public void setRadius(int radius)
     {
         this.radius = radius;
+        updateLayout();
     }
 
     public int getRadiusBottomLeft()
@@ -406,6 +418,7 @@ public class DrawMeShape implements DrawMe {
     public void setRadiusBottomLeft(int radiusBottomLeft)
     {
         this.radiusBottomLeft = radiusBottomLeft;
+        updateLayout();
     }
 
     public int getRadiusBottomRight()
@@ -416,6 +429,7 @@ public class DrawMeShape implements DrawMe {
     public void setRadiusBottomRight(int radiusBottomRight)
     {
         this.radiusBottomRight = radiusBottomRight;
+        updateLayout();
     }
 
     public int getRadiusTopLeft()
@@ -426,6 +440,7 @@ public class DrawMeShape implements DrawMe {
     public void setRadiusTopLeft(int radiusTopLeft)
     {
         this.radiusTopLeft = radiusTopLeft;
+        updateLayout();
     }
 
     public int getRadiusTopRight()
@@ -436,6 +451,7 @@ public class DrawMeShape implements DrawMe {
     public void setRadiusTopRight(int radiusTopRight)
     {
         this.radiusTopRight = radiusTopRight;
+        updateLayout();
     }
 
     public float getMaskBrightnessThreshold()
@@ -446,6 +462,7 @@ public class DrawMeShape implements DrawMe {
     public void setMaskBrightnessThreshold(float maskBrightnessThreshold)
     {
         this.maskBrightnessThreshold = maskBrightnessThreshold;
+        updateLayout();
     }
 
     public int getMaskColorPressed()
@@ -456,6 +473,7 @@ public class DrawMeShape implements DrawMe {
     public void setMaskColorPressed(int maskColorPressed)
     {
         this.maskColorPressed = maskColorPressed;
+        updateLayout();
     }
 
     public int getMaskColorPressedInverse()
@@ -466,6 +484,7 @@ public class DrawMeShape implements DrawMe {
     public void setMaskColorPressedInverse(int maskColorPressedInverse)
     {
         this.maskColorPressedInverse = maskColorPressedInverse;
+        updateLayout();
     }
 
     public int getMaskColorDisabled()
@@ -476,6 +495,7 @@ public class DrawMeShape implements DrawMe {
     public void setMaskColorDisabled(int maskColorDisabled)
     {
         this.maskColorDisabled = maskColorDisabled;
+        updateLayout();
     }
 
     public boolean isRippleEffect()
@@ -486,6 +506,7 @@ public class DrawMeShape implements DrawMe {
     public void setRippleEffect(boolean rippleEffect)
     {
         this.rippleEffect = rippleEffect;
+        updateLayout();
     }
 
     public boolean isRippleUseControlHighlight()
@@ -496,6 +517,7 @@ public class DrawMeShape implements DrawMe {
     public void setRippleUseControlHighlight(boolean rippleUseControlHighlight)
     {
         this.rippleUseControlHighlight = rippleUseControlHighlight;
+        updateLayout();
     }
 
     public boolean isStatePressed()
@@ -506,6 +528,7 @@ public class DrawMeShape implements DrawMe {
     public void setStatePressed(boolean statePressed)
     {
         this.statePressed = statePressed;
+        updateLayout();
     }
 
     public boolean isStateDisabled()
@@ -516,6 +539,7 @@ public class DrawMeShape implements DrawMe {
     public void setStateDisabled(boolean stateDisabled)
     {
         this.stateDisabled = stateDisabled;
+        updateLayout();
     }
 
     public boolean isShapeEqualWidthHeight()
@@ -526,6 +550,7 @@ public class DrawMeShape implements DrawMe {
     public void setShapeEqualWidthHeight(boolean shapeEqualWidthHeight)
     {
         this.shapeEqualWidthHeight = shapeEqualWidthHeight;
+        updateLayout();
     }
 
     public boolean isShapeRadiusHalfHeight()
@@ -536,5 +561,6 @@ public class DrawMeShape implements DrawMe {
     public void setShapeRadiusHalfHeight(boolean shapeRadiusHalfHeight)
     {
         this.shapeRadiusHalfHeight = shapeRadiusHalfHeight;
+        updateLayout();
     }
 }
